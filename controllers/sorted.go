@@ -19,12 +19,12 @@ type SortedRequest struct {
 func (s SortedController) MergeSort(c *gin.Context) {
 
 	var r SortedRequest
+	var sorter Sorter
 
 	if c.BindJSON(&r) == nil {
 		log.Println(r)
 	}
 
-	Sort(r.Arr)
-	//Mergs(&r.Arr, 0, len-1)
-	c.JSON(http.StatusOK, r)
+	tupl := sorter.Sort(r.Arr)
+	c.JSON(http.StatusOK, tupl)
 }

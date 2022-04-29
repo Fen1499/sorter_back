@@ -1,22 +1,18 @@
 package pkg
 
+type Slot struct {
+	idx   int
+	value int
+}
+
+type iSorter interface {
+	Sort(arr []int) [][2]int
+	GetIndexes(tupl [][2]int) []int
+	GetValues(tupl [][2]int) []int
+}
+
 type Sorter struct {
-	ArrMap map[int]int
-}
-
-func (s *Sorter) InitMap(arr []int) map[int]int {
-	s.ArrMap = make(map[int]int)
-	for idx, key := range arr {
-		s.ArrMap[idx] = key
-	}
-	return s.ArrMap
-}
-
-func (s Sorter) printIndexes(arr []int) []int {
-	printArr := make([]int, len(arr))
-	for idx, key := range arr {
-		printArr[idx] = s.ArrMap[key]
-	}
-	//fmt.Println(arr)
-	return printArr
+	Arr   []int
+	Slot  []Slot
+	tuple [][2]int
 }

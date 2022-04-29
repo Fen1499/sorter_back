@@ -1,7 +1,6 @@
 package pkg
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 )
@@ -15,17 +14,17 @@ func create_array(len int) []int {
 	return arr
 }
 
-func merge(arr *[]int, l, m, r int) {
+func merge(arr *[][2]int, l, m, r int) {
 
-	l_arr := make([]int, m-l+1)
+	l_arr := make([][2]int, m-l+1)
 	copy(l_arr, (*arr)[l:m+1])
 
-	r_arr := make([]int, r-m)
+	r_arr := make([][2]int, r-m)
 	copy(r_arr, (*arr)[m+1:r+1])
 
 	i, j, k := 0, 0, l
 	for i < len(r_arr) && j < len(l_arr) {
-		if r_arr[i] < l_arr[j] {
+		if r_arr[i][1] < l_arr[j][1] {
 			(*arr)[k] = r_arr[i]
 			i++
 		} else {
@@ -49,14 +48,14 @@ func merge(arr *[]int, l, m, r int) {
 
 }
 
-func Mergs(arr *[]int, l, r int) {
+func mergs(tupl *[][2]int, l, r int) {
 	m := (l + r) / 2
 	if l < r {
-		Mergs(arr, l, m)
-		Mergs(arr, m+1, r)
-		fmt.Println("merge: ", (*arr)[l:m+1], (*arr)[m+1:r+1])
-		merge(arr, l, m, r)
-		fmt.Println("into: ", (*arr)[l:r+1])
+		mergs(tupl, l, m)
+		mergs(tupl, m+1, r)
+		//fmt.Println("merge: ", s.GetIndexes((*tupl)[l:m+1]), s.GetIndexes((*tupl)[m+1:r+1]))
+		merge(tupl, l, m, r)
+		//fmt.Println("into: ", s.GetIndexes((*tupl)[l:r+1]))
 	}
 }
 
@@ -65,11 +64,30 @@ func createTuple(arr []int) [][2]int {
 	for idx, val := range arr {
 		tupleArr[idx] = [2]int{idx, val}
 	}
-	fmt.Println(tupleArr)
+	// fmt.Println(tupleArr)
+	// fmt.Println("Indexes: ", getIndexes(tupleArr))
+	// fmt.Println("Values: ", getValues(tupleArr))
 	return tupleArr
 }
 
-// func Sort(arr []int) {
-// 	tupl := createTuple(arr)
-// 	Mergs(arr, 0, len(arr)-1)
-// }
+func (s *Sorter) GetIndexes(tupl [][2]int) []int {
+	arr := make([]int, len(tupl))
+	for idx, val := range tupl {
+		arr[idx] = val[0]
+	}
+	return arr
+
+}
+func (s *Sorter) GetValues(tupl [][2]int) []int {
+	arr := make([]int, len(tupl))
+	for idx, val := range tupl {
+		arr[idx] = val[1]
+	}
+	return arr
+}
+
+func (s *Sorter) Sort(arr []int) [][2]int {
+	s.tuple = createTuple(arr)
+	mergs(&s.tuple, 0, len(arr)-1)
+	return s.tuple
+}
