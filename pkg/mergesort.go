@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	"time"
 )
@@ -49,17 +50,14 @@ func merge(arr *[][2]int, l, m, r int) {
 
 }
 
-func (s *Sorter) mergs(tupl *[][2]int, l, r int) {
+func (s *Sorter) mergs(tupl *[][2]int, l, r, pos int) {
 	m := (l + r) / 2
 	if l < r {
-		s.mergs(tupl, l, m)
-		s.mergs(tupl, m+1, r)
-
-		var aux Merger
-		aux.Merge = [2][]int{s.GetIndexes((*tupl)[l : m+1]), s.GetIndexes((*tupl)[m+1 : r+1])}
+		s.mergs(tupl, l, m, (pos*2)+1)
+		s.Tree[(pos*2)+1] = s.GetIndexes((*tupl)[l : m+1])
+		s.mergs(tupl, m+1, r, (pos*2)+2)
+		s.Tree[(pos*2)+2] = s.GetIndexes((*tupl)[m+1 : r+1])
 		merge(tupl, l, m, r)
-		aux.Into = s.GetIndexes((*tupl)[l : r+1])
-		s.MergeList = append(s.MergeList, aux)
 	}
 }
 
@@ -69,6 +67,15 @@ func createTuple(arr []int) [][2]int {
 		tupleArr[idx] = [2]int{idx, val}
 	}
 	return tupleArr
+}
+
+func createTree(len int) [][]int {
+	h := math.Ceil(math.Log2(float64(len)))
+	fmt.Println("tamanho: ", len)
+	fmt.Println("altura: ", h)
+	n := int(math.Pow(2, h+1) - 1)
+	fmt.Println("arvore: ", n)
+	return make([][]int, n)
 }
 
 func (s *Sorter) GetIndexes(tupl [][2]int) []int {
@@ -89,9 +96,12 @@ func (s *Sorter) GetValues(tupl [][2]int) []int {
 
 func (s *Sorter) Sort(arr []int) [][2]int {
 	s.tuple = createTuple(arr)
-	s.mergs(&s.tuple, 0, len(arr)-1)
+	s.Arr = arr
+	s.Tree = createTree(len(arr))
+	s.mergs(&s.tuple, 0, len(arr)-1, 0)
+	s.Tree[0] = s.GetIndexes(s.tuple)
 	s.formatResult(s.tuple)
-	fmt.Println(s.MergeList)
+	fmt.Println(s.Tree)
 	return s.tuple
 }
 
@@ -101,6 +111,5 @@ func (s *Sorter) formatResult(arr [][2]int) []Slot {
 		s.SlotList[idx].Idx = val[0]
 		s.SlotList[idx].Value = val[1]
 	}
-	fmt.Println(s.SlotList)
 	return s.SlotList
 }

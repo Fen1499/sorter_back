@@ -26,5 +26,5 @@ func (s SortedController) MergeSort(c *gin.Context) {
 	}
 
 	sorter.Sort(r.Arr)
-	c.JSON(http.StatusOK, sorter.MergeList)
+	c.JSON(http.StatusOK, sorter.Tree)
 }
