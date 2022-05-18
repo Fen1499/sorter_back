@@ -1,7 +1,7 @@
 package main
 
 import (
-	"attempt_gin/server"
+	"sorter_gin/server"
 )
 
 func main() {

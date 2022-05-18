@@ -1,4 +1,4 @@
-module attempt_gin
+module sorter_gin
 
 go 1.18
 

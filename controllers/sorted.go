@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	. "attempt_gin/pkg"
+	. "sorter_gin/pkg"
 
 	"log"
 

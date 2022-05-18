@@ -1,7 +1,7 @@
 package server
 
 import (
-	"attempt_gin/controllers"
+	"sorter_gin/controllers"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
