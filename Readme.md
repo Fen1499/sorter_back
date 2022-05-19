@@ -1,0 +1,1 @@
+This API sorts things, it's the most useless thinkg I could think of and that's why I did it. Also wanted to learn Go
