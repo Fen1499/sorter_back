@@ -71,10 +71,7 @@ func createTuple(arr []int) [][2]int {
 
 func createTree(len int) [][]int {
 	h := math.Ceil(math.Log2(float64(len)))
-	fmt.Println("tamanho: ", len)
-	fmt.Println("altura: ", h)
 	n := int(math.Pow(2, h+1) - 1)
-	fmt.Println("arvore: ", n)
 	return make([][]int, n)
 }
 
@@ -100,16 +97,10 @@ func (s *Sorter) Sort(arr []int) [][2]int {
 	s.Tree = createTree(len(arr))
 	s.mergs(&s.tuple, 0, len(arr)-1, 0)
 	s.Tree[0] = s.GetIndexes(s.tuple)
-	s.formatResult(s.tuple)
 	fmt.Println(s.Tree)
 	return s.tuple
 }
 
-func (s *Sorter) formatResult(arr [][2]int) []Slot {
-	s.SlotList = make([]Slot, len(arr))
-	for idx, val := range arr {
-		s.SlotList[idx].Idx = val[0]
-		s.SlotList[idx].Value = val[1]
-	}
-	return s.SlotList
+func (s *Sorter) GetResult() [][]int {
+	return s.Tree
 }

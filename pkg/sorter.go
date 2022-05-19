@@ -5,11 +5,11 @@ type Slot struct {
 	Value int
 }
 
-type iSorter interface {
+type ISorter interface {
 	Sort(arr []int) [][2]int
 	GetIndexes(tupl [][2]int) []int
 	GetValues(tupl [][2]int) []int
-	formatResult(arr [][2]int) []Slot
+	GetResult() [][]int
 }
 
 type Sorter struct {
